@@ -1,134 +1,41 @@
 # Notion API 検証
-
-## インテグレーションを作成/トークン取得
+## 【事前準備】インテグレーションを作成/トークン取得
 https://developers.notion.com/docs/getting-started#step-1-create-an-integration
 
-リンク先の手順に従って統合を作成し、APIを叩く際に必要なトークンを取得する
+上記リンク先の手順に従って統合を作成し、APIを叩く際に必要なトークンを取得する
 ![picture 2](images/045a5016a8823a4eb10da57eeb8e008a262150be40084ff92fd379f1fea370a9.png)
 
+## ページ内にリンクを貼り付ける
+`PATCH https://api.notion.com/v1/blocks/{block_id}/children`
 
-## データベース内にリンクを貼り付ける
-`POST https://api.notion.com/v1/pages`
+- `block_id`の取得
+  - ブロックID = ページID(ページもブロックの一種)
+    - [共有 > リンクをコピー > リンクの一部をページIDとして取得]
+  - 参考
+    - https://developers.notion.com/docs/working-with-page-content#reading-blocks-from-a-page
+    - https://stackoverflow.com/questions/67618449/how-to-get-the-block-id-in-notion-api
 
-![picture 4](images/fec241fd6dfd1e4c90eb7bba80f9823229fcd4b6fa223ef38bba6150ae74fccd.png)
 
-### header
-- TOKENは上記の統合時に取得したものを使用
+下記画像のように指定されたページにブロックを追加する。
+![picture 6](images/d23ddaf39be56cd15aded49136f8546df83c2dba06d4155525fd0489bd2267a0.png)
 
-|     | key            | value            |     |
-| :-- | -------------- | ---------------- | --- |
-|     | Content-Type   | application/json |     |
-|     | Authorization  | Bearer TOKEN   |     |
-|     | Notion-Version | 2022-02-22       |     |
+参考
+- https://developers.notion.com/docs/working-with-page-content#appending-blocks-to-a-page
+- https://developers.notion.com/reference/patch-block-children
 
-### json
-- `database_id`の取得方法
 
+### Header
+TOKENは事前準備の際に取得したものを使用する。
+
+| key            | value            |
+| -------------- | ---------------- |
+| Content-Type   | application/json |
+| Authorization  | Bearer $TOKEN     |
+| Notion-Version | 2022-02-22       |
+
+### JSON
 ```json
 {
- "parent": { "database_id": "{{ _.database_id }}" },
-	"properties": {
-		"Title": {
-			"title": [
-				{
-					"text": {
-						"content": "test"
-					}
-				}
-			]
-		},
-		"URL": {
-			"url": "https://developers.notion.com/docs/getting-started#step-1-create-an-integration"
-		}
-	}
-}
-```
-
-
-## ページの中にページを新規作成してリンクを貼り付ける
-https://developers.notion.com/docs/working-with-page-content#creating-a-page-with-content
-
-`POST https://api.notion.com/v1/pages`
-
-### header
-- TOKENは上記の統合時に取得したものを使用する
-
-|     | key            | value            |     |
-| :-- | -------------- | ---------------- | --- |
-|     | Content-Type   | application/json |     |
-|     | Authorization  | Bearer TOKEN   |     |
-|     | Notion-Version | 2022-02-22       |     |
-
-
-
-### json
-```json
-{
-  "parent": {
-		"page_id": "bb2c7336-fe29-41f6-a476-66ee41484ac1",
-		"type": "page_id"
-	},
-  "properties": {
-      "title": {
-  	    "title": [{ "type": "text", "text": { "content": "A note from your pals at Notion" } }]
-        }
-    },
-    "children": [
-    {
-      "object": "block",
-      "type": "paragraph",
-      "paragraph": {
-        "rich_text": [{ "type": "text", "text": { "content": "You made this page using the Notion API. Pretty cool, huh? We hope you enjoy building with us." } }]
-      }
-    }
-  ]
-}
-```
-
-
-
-
-## 新規ページ作成 + url貼り付け(親がデータベースの場合)
-`POST https://api.notion.com/v1/pages`
-
-### json
-```json
-{
-	"parent": { "database_id": "{{ _.database_id }}" },
-  "icon": {
-  	"emoji": "🥬"
-  },
-	"cover": {
-		"external": {
-			"url": "https://upload.wikimedia.org/wikipedia/commons/6/62/Tuscankale.jpg"
-		}
-	},
-	"properties": {
-		"Name": {
-			"title": [
-				{
-					"text": {
-						"content": "Tuscan Kale"
-					}
-				}
-			]
-		},
-		"Description": {
-			"rich_text": [
-				{
-					"text": {
-						"content": "A dark green leafy vegetable"
-					}
-				}
-			]
-		},
-		"Food group": {
-			"select": {
-				"name": "Vegetable"
-			}
-		},
-		"Price": { "number": 2.5 }
-	},
 	"children": [
 		{
 			"object": "block",
@@ -153,5 +60,51 @@ https://developers.notion.com/docs/working-with-page-content#creating-a-page-wit
 			}
 		}
 	]
+}
+```
+
+## データベース内にリンクを貼り付ける
+`POST https://api.notion.com/v1/pages`
+
+フルページのデータベースに対して、下記に貼り付けた画像のように「Title」「URL」をプロパティとして持つページを作成する。
+
+参考
+- https://developers.notion.com/reference/post-page
+- https://developers.notion.com/docs
+![picture 4](images/fec241fd6dfd1e4c90eb7bba80f9823229fcd4b6fa223ef38bba6150ae74fccd.png)
+
+### Header
+TOKENは事前準備の際に取得したものを使用する。
+
+| key            | value            |
+| -------------- | ---------------- |
+| Content-Type   | application/json |
+| Authorization  | Bearer $TOKEN     |
+| Notion-Version | 2022-02-22       |
+
+### JSON
+- `DATABASE_ID`の取得方法
+  - [共有 > リンクをコピー > リンクの一部をdatabase_idとして取得]
+  ![picture 5](images/b272e860f70be2c2800416067a727df9e5ec8aaf15c8e3f1fa3b698fc966ada6.png)
+  - https://developers.notion.com/docs/working-with-databases#adding-pages-to-a-database
+- json内の「Title」「URL」は、作成しているデータベースのカラム名と合わせる必要がある
+
+```json
+{
+ "parent": { "database_id": "$DATABASE_ID" },
+	"properties": {
+		"Title": {
+			"title": [
+				{
+					"text": {
+						"content": "test"
+					}
+				}
+			]
+		},
+		"URL": {
+			"url": "https://developers.notion.com/docs/getting-started#step-1-create-an-integration"
+		}
+	}
 }
 ```
