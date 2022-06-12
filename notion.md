@@ -69,6 +69,7 @@ TOKENは事前準備の際に取得したものを使用する。
 `POST https://api.notion.com/v1/pages`
 
 フルページのデータベースに対して、下記に貼り付けた画像のように「Title」「URL」をプロパティとして持つページを作成する。
+データベースのレコードとしてページが追加されていく。
 ![picture 4](images/fec241fd6dfd1e4c90eb7bba80f9823229fcd4b6fa223ef38bba6150ae74fccd.png)
 
 参考
