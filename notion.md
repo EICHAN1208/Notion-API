@@ -90,7 +90,7 @@ TOKENは事前準備の際に取得したものを使用する。
   - [共有 > リンクをコピー > リンクの一部をdatabase_idとして取得]
   ![picture 5](images/b272e860f70be2c2800416067a727df9e5ec8aaf15c8e3f1fa3b698fc966ada6.png)
   - [Adding pages to a database](https://developers.notion.com/docs/working-with-databases#adding-pages-to-a-database)
-- json内の「Title」「URL」は、作成しているデータベースのカラム名と合わせる必要がある
+- json内の「Title」「URL」は、作成しているデータベースのプロパティ名と合わせる必要がある
 
 ```json
 {
