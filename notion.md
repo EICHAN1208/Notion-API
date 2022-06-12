@@ -13,7 +13,7 @@
 - `block_id`の取得
   - ブロックID = ページID(ページもブロックの一種)
     - [共有 > リンクをコピー > リンクの一部をページIDとして取得]
-    - ページのURLが「https://www.notion.so/sample-bb2c7336fe2941f6a47666ee41484ac1」であれば、「bb2c7336fe2941f6a47666ee41484ac1」がページIDとなる
+    - ページのURLが「`https://www.notion.so/sample-bb2c7336fe2941f6a47666ee41484ac1`」であれば、「`bb2c7336fe2941f6a47666ee41484ac1`」がページIDとなる
   - 参考
     - [Reading blocks from a page](https://developers.notion.com/docs/working-with-page-content#reading-blocks-from-a-page)
     - [How to get the block Id in Notion API?](https://stackoverflow.com/questions/67618449/how-to-get-the-block-id-in-notion-api)
