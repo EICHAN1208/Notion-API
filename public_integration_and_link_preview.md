@@ -32,6 +32,14 @@
 
 
 ## ブックマークとして貼り付ける
+
+### **貼り付けのイメージ**
+
+ブックマーク + コメントの追加
+
+<img width="1553" alt="image" src="https://user-images.githubusercontent.com/50512657/175754892-838d8c96-4814-432f-88bf-8a4691bbf238.png">
+
+
 ### [Append block children](https://developers.notion.com/reference/patch-block-children)
 
 `POSR https://api.notion.com/v1/blocks/{block_id}/children`
@@ -49,7 +57,26 @@ block_id
 			"object": "block",
 			"type": "bookmark",
 			"bookmark": {
-				"url": "https://www.yahoo.co.jp/"
+        "caption": [
+            {
+                "type": "text",
+                "text": {
+                    "content": "add comment",
+                    "link": null
+                },
+                "annotations": {
+                    "bold": false,
+                    "italic": false,
+                    "strikethrough": false,
+                    "underline": false,
+                    "code": false,
+                    "color": "default"
+                },
+                "plain_text": "My caption",
+                "href": null
+            }
+        ],
+        "url": "http://www.notion.so"
 			}
 		}
 	]
